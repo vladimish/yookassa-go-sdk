@@ -1,7 +1,6 @@
 package yookassa
 
 import (
-	yookassa "github.com/telf01/yookassa-go-sdk/models"
 	"testing"
 )
 
@@ -23,14 +22,14 @@ func TestKassa_Ping(t *testing.T) {
 // TestKassa_SendPaymentConfig проверяет создание платежа.
 func TestKassa_SendPaymentConfig(t *testing.T) {
 	k := NewKassa(shopid, key)
-	tAmount := yookassa.Amount{
+	tAmount := Amount{
 		Value:    "10.00",
 		Currency: "RUB",
 	}
-	config := yookassa.NewPaymentConfig(
+	config := NewPaymentConfig(
 		tAmount,
-		yookassa.Redirect{
-			Type:      yookassa.TypeRedirect,
+		Redirect{
+			Type:      TypeRedirect,
 			Locale:    "ru_RU",
 			Enforce:   true,
 			ReturnURL: "https://t.me/ranh_ranepa_bot",
@@ -48,14 +47,14 @@ func TestKassa_SendPaymentConfig(t *testing.T) {
 
 func TestKassa_GetPaymentInfo(t *testing.T) {
 	k := NewKassa(shopid, key)
-	tAmount := yookassa.Amount{
+	tAmount := Amount{
 		Value:    "10.00",
 		Currency: "RUB",
 	}
-	config := yookassa.NewPaymentConfig(
+	config := NewPaymentConfig(
 		tAmount,
-		yookassa.Redirect{
-			Type:      yookassa.TypeRedirect,
+		Redirect{
+			Type:      TypeRedirect,
 			Locale:    "ru_RU",
 			Enforce:   true,
 			ReturnURL: "https://t.me/ranh_ranepa_bot",

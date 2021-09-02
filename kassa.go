@@ -3,7 +3,6 @@ package yookassa
 import (
 	"bytes"
 	"encoding/json"
-	yookassa "github.com/telf01/yookassa-go-sdk/models"
 	"io"
 	"net/http"
 )
@@ -28,13 +27,13 @@ func NewKassa(shopID, token string) *Kassa {
 		Token:    token,
 		Verbose:  false,
 		Client:   http.Client{},
-		endpoint: yookassa.APIEndpoint,
+		endpoint: APIEndpoint,
 	}
 }
 
 // Ping отправляет тестовый запрос для проверки соединения.
 func (k *Kassa) Ping() (bool, error) {
-	resp, err := k.sendGetRequest(yookassa.PaymentsEndpoint, nil)
+	resp, err := k.sendGetRequest(PaymentsEndpoint, nil)
 	if err != nil {
 		return false, err
 	}
@@ -48,13 +47,13 @@ func (k *Kassa) Ping() (bool, error) {
 
 // SendPaymentConfig отправляет PaymentConfig на сервера ЮКассы
 // и получает готовый экземпляр Payment в ответ.
-func (k *Kassa) SendPaymentConfig(config *yookassa.PaymentConfig) (*yookassa.Payment, error){
+func (k *Kassa) SendPaymentConfig(config *PaymentConfig) (*Payment, error){
 	paymentBytes, err := json.Marshal(config)
 	if err != nil{
 		return nil, err
 	}
 
-	resp, err := k.sendPostRequest(yookassa.PaymentsEndpoint, paymentBytes)
+	resp, err := k.sendPostRequest(PaymentsEndpoint, paymentBytes)
 	if err != nil{
 		return nil, err
 	}
@@ -68,8 +67,8 @@ func (k *Kassa) SendPaymentConfig(config *yookassa.PaymentConfig) (*yookassa.Pay
 }
 
 // GetPayment получает объект Payment по ID.
-func (k *Kassa) GetPayment(id string)(*yookassa.Payment, error){
-	resp, err := k.sendGetRequest(yookassa.PaymentsEndpoint + id, nil)
+func (k *Kassa) GetPayment(id string)(*Payment, error){
+	resp, err := k.sendGetRequest(PaymentsEndpoint+ id, nil)
 	if err != nil{
 		return nil, err
 	}
@@ -83,14 +82,14 @@ func (k *Kassa) GetPayment(id string)(*yookassa.Payment, error){
 }
 
 // handleResponse парсит ответ в экземпляр Payment.
-func (k *Kassa) handleResponse(resp *http.Response)(*yookassa.Payment, error){
+func (k *Kassa) handleResponse(resp *http.Response)(*Payment, error){
 	var responseBytes []byte
 	responseBytes, err := io.ReadAll(resp.Body)
 	if err != nil{
 		return nil, err
 	}
 
-	p := yookassa.Payment{}
+	p := Payment{}
 	err = json.Unmarshal(responseBytes, &p)
 	if err != nil{
 		return nil, err

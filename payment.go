@@ -240,9 +240,9 @@ type PaymentConfig struct {
 		} `json:"customer,omitempty"`
 		Items []struct {
 			Description              string `json:"description,omitempty"`
-			Quantity                 string `json:"quantity,omitempty"`
-			Amount                   Amount `json:"amount,omitempty"`
-			VatCode                  int    `json:"vat_code,omitempty"`
+			Quantity string `json:"quantity,omitempty"`
+			Amount   Amount `json:"amount,omitempty"`
+			VatCode  int    `json:"vat_code,omitempty"`
 			PaymentSubject           string `json:"payment_subject,omitempty"`
 			PaymentMode              string `json:"payment_mode,omitempty"`
 			ProductCode              string `json:"product_code,omitempty"`
