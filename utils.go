@@ -3,9 +3,12 @@ package yookassa
 import (
 	"encoding/hex"
 	"math/rand"
+	"time"
 )
 
 func UUIDGen() string {
+	rand.Seed(time.Now().Unix())
+
 	u := make([]byte, 16)
 	rand.Read(u)
 
