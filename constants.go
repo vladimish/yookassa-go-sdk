@@ -5,6 +5,10 @@ const (
 	PaymentsEndpoint = "payments/"
 )
 
+const (
+	ErrorType = "error"
+)
+
 type Status string
 const (
 	Pending           Status = "pending"

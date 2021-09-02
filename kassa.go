@@ -3,6 +3,7 @@ package yookassa
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 )
@@ -63,6 +64,10 @@ func (k *Kassa) SendPaymentConfig(config *PaymentConfig) (*Payment, error){
 		return nil, err
 	}
 
+	if p.Type == ErrorType{
+		return nil, errors.New(p.Description)
+	}
+
 	return p, nil
 }
 
@@ -76,6 +81,10 @@ func (k *Kassa) GetPayment(id string)(*Payment, error){
 	p, err := k.handleResponse(resp)
 	if err != nil{
 		return nil, err
+	}
+
+	if p.Type == ErrorType{
+		return nil, errors.New(p.Description)
 	}
 
 	return p, nil

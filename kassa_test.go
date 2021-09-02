@@ -5,7 +5,7 @@ import (
 )
 
 // Для тестирования введите ваш идентификатор магазина и приватный ключ.
-var shopid, key = "", ""
+var shopid, key = "830911", "test_RYPy6ussTGgAD_MNaFDeGTV6G4wyqWW34H8_5ufNx7g"
 
 // TestKassa_Ping проверяет работоспособность функции Ping.
 func TestKassa_Ping(t *testing.T) {
@@ -40,7 +40,7 @@ func TestKassa_SendPaymentConfig(t *testing.T) {
 		t.Error(err)
 	}
 
-	if payment.Amount != tAmount{
+	if payment.Amount != tAmount {
 		t.Error("Got wrong response.")
 	}
 }
@@ -72,7 +72,22 @@ func TestKassa_GetPaymentInfo(t *testing.T) {
 	t.Log(payment)
 	t.Log(payment2)
 
-	if payment.Id != payment2.Id{
+	if payment.Id != payment2.Id {
 		t.Error("Got wrong response.")
+	}
+}
+
+func TestKassa_GetPaymentErrorsControl(t *testing.T) {
+	k := NewKassa(shopid, key)
+	config := NewPaymentConfig(
+		Amount{
+			Value: "-5",
+			Currency: "XMR",
+		},
+		Embedded{})
+
+	_, err := k.SendPaymentConfig(config)
+	if err == nil {
+		t.Error("Error is not handled.")
 	}
 }
