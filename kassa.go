@@ -67,9 +67,9 @@ func (k *Kassa) SendPaymentConfig(config *yookassa.PaymentConfig) (*yookassa.Pay
 	return p, nil
 }
 
-// GetPaymentInfo получает объект Payment по ID.
-func (k *Kassa) GetPaymentInfo(id string)(*yookassa.Payment, error){
-	resp, err := k.sendPostRequest(yookassa.PaymentsEndpoint + id, nil)
+// GetPayment получает объект Payment по ID.
+func (k *Kassa) GetPayment(id string)(*yookassa.Payment, error){
+	resp, err := k.sendGetRequest(yookassa.PaymentsEndpoint + id, nil)
 	if err != nil{
 		return nil, err
 	}
