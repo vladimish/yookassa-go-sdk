@@ -1,8 +1,8 @@
 package yookassa
 
 import (
+	yookassa "github.com/telf01/yookassa-go-sdk/models"
 	"testing"
-	yookassa "yookassa/models"
 )
 
 // Для тестирования введите ваш идентификатор магазина и приватный ключ.

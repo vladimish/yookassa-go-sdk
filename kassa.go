@@ -3,9 +3,9 @@ package yookassa
 import (
 	"bytes"
 	"encoding/json"
+	yookassa "github.com/telf01/yookassa-go-sdk/models"
 	"io"
 	"net/http"
-	yookassa "yookassa/models"
 )
 
 type Kassa struct {
