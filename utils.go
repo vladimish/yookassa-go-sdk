@@ -6,8 +6,13 @@ import (
 	"time"
 )
 
+var isSeedAcquired = false
+
 func UUIDGen() string {
-	rand.Seed(time.Now().Unix())
+	if !isSeedAcquired {
+		rand.Seed(time.Now().UnixNano())
+		isSeedAcquired = true
+	}
 
 	u := make([]byte, 16)
 	rand.Read(u)
