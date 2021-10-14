@@ -3,6 +3,7 @@ package yookassa
 const (
 	APIEndpoint = "https://api.yookassa.ru/v3/"
 	PaymentsEndpoint = "payments/"
+	CaptureEndpoint = "capture"
 )
 
 const (

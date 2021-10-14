@@ -10,13 +10,13 @@ import (
 
 type Kassa struct {
 	// Идентификатор вашего магазина.
-	ShopID  string
+	ShopID string
 	// Ваш секретный ключ.
-	Token   string
+	Token string
 	// Режим отображения отладочной информации.
 	Verbose bool
 	// HTTP клиент для обработки запросов.
-	Client  http.Client
+	Client http.Client
 	// Адрес, по которому требуется выполнять запросы.
 	endpoint string
 }
@@ -48,23 +48,23 @@ func (k *Kassa) Ping() (bool, error) {
 
 // SendPaymentConfig отправляет PaymentConfig на сервера ЮКассы
 // и получает готовый экземпляр Payment в ответ.
-func (k *Kassa) SendPaymentConfig(config *PaymentConfig) (*Payment, error){
+func (k *Kassa) SendPaymentConfig(config *PaymentConfig) (*Payment, error) {
 	paymentBytes, err := json.Marshal(config)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	resp, err := k.sendPostRequest(PaymentsEndpoint, paymentBytes)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	p, err := k.handleResponse(resp)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
-	if p.Type == ErrorType{
+	if p.Type == ErrorType {
 		return nil, errors.New(p.Description)
 	}
 
@@ -72,18 +72,18 @@ func (k *Kassa) SendPaymentConfig(config *PaymentConfig) (*Payment, error){
 }
 
 // GetPayment получает объект Payment по ID.
-func (k *Kassa) GetPayment(id string)(*Payment, error){
-	resp, err := k.sendGetRequest(PaymentsEndpoint+ id, nil)
-	if err != nil{
+func (k *Kassa) GetPayment(id string) (*Payment, error) {
+	resp, err := k.sendGetRequest(PaymentsEndpoint+id, nil)
+	if err != nil {
 		return nil, err
 	}
 
 	p, err := k.handleResponse(resp)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
-	if p.Type == ErrorType{
+	if p.Type == ErrorType {
 		return nil, errors.New(p.Description)
 	}
 
@@ -91,20 +91,38 @@ func (k *Kassa) GetPayment(id string)(*Payment, error){
 }
 
 // handleResponse парсит ответ в экземпляр Payment.
-func (k *Kassa) handleResponse(resp *http.Response)(*Payment, error){
+func (k *Kassa) handleResponse(resp *http.Response) (*Payment, error) {
 	var responseBytes []byte
 	responseBytes, err := io.ReadAll(resp.Body)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	p := Payment{}
 	err = json.Unmarshal(responseBytes, &p)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
 	return &p, nil
+}
+
+// AcceptSpending совершает списание средств, когда платёж перешёл в статус waiting_for_capture.
+func (k *Kassa) AcceptSpending(id string) error {
+	_, err := k.sendPostRequest(PaymentsEndpoint+id+"/"+CaptureEndpoint, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeclineSpending совершает отмену списания средств, когда платёж перешёл в статус waiting_for_capture.
+func (k *Kassa) DeclineSpending(id string) error {
+	_, err := k.sendPostRequest(PaymentsEndpoint+id+"/"+CaptureEndpoint, nil)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // sendPostRequest отправляет стандартный POST запрос с требуемыми настройками.
