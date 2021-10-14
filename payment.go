@@ -115,7 +115,6 @@ type Payment struct {
 	//// Поля, содержащиеся как в Payment, так и в PaymentConfig.
 	//basePayment
 
-
 	// Статус платежа.
 	// Подробнее про жизненный цикл платежа: https://yookassa.ru/developers/payments/payment-process#lifecycle.
 	Status Status `json:"status"`
@@ -177,6 +176,19 @@ type Payment struct {
 		// Выдается эмитентом и подтверждает проведение авторизации.
 		AuthCode string `json:"auth_code"`
 	} `json:"authorization_details"`
+}
+
+type Item []struct {
+	Description              string `json:"description,omitempty"`
+	Quantity                 string `json:"quantity,omitempty"`
+	Amount                   Amount `json:"amount,omitempty"`
+	VatCode                  int    `json:"vat_code,omitempty"`
+	PaymentSubject           string `json:"payment_subject,omitempty"`
+	PaymentMode              string `json:"payment_mode,omitempty"`
+	ProductCode              string `json:"product_code,omitempty"`
+	CountryOfOriginCode      string `json:"country_of_origin_code,omitempty"`
+	CustomsDeclarationNumber string `json:"customs_declaration_number,omitempty"`
+	Excise                   string `json:"excise,omitempty"`
 }
 
 type PaymentConfig struct {
@@ -241,18 +253,7 @@ type PaymentConfig struct {
 			Email    string `json:"email,omitempty"`
 			Phone    string `json:"phone,omitempty"`
 		} `json:"customer,omitempty"`
-		Items []struct {
-			Description              string `json:"description,omitempty"`
-			Quantity string `json:"quantity,omitempty"`
-			Amount   Amount `json:"amount,omitempty"`
-			VatCode  int    `json:"vat_code,omitempty"`
-			PaymentSubject           string `json:"payment_subject,omitempty"`
-			PaymentMode              string `json:"payment_mode,omitempty"`
-			ProductCode              string `json:"product_code,omitempty"`
-			CountryOfOriginCode      string `json:"country_of_origin_code,omitempty"`
-			CustomsDeclarationNumber string `json:"customs_declaration_number,omitempty"`
-			Excise                   string `json:"excise,omitempty"`
-		} `json:"items,omitempty"`
+		Items         []Item `json:"items"`
 		TaxSystemCode int    `json:"tax_system_code,omitempty"`
 		Phone         string `json:"phone,omitempty"`
 		Email         string `json:"email,omitempty"`
