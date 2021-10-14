@@ -191,6 +191,19 @@ type Item struct {
 	Excise                   string `json:"excise,omitempty"`
 }
 
+type Receipt struct {
+	Customer *struct {
+		FullName string `json:"full_name,omitempty"`
+		INN      string `json:"inn,omitempty"`
+		Email    string `json:"email,omitempty"`
+		Phone    string `json:"phone,omitempty"`
+	} `json:"customer,omitempty"`
+	Items         []Item `json:"items"`
+	TaxSystemCode int    `json:"tax_system_code,omitempty"`
+	Phone         string `json:"phone,omitempty"`
+	Email         string `json:"email,omitempty"`
+}
+
 type PaymentConfig struct {
 	// Сумма платежа.
 	// Иногда партнеры ЮKassa берут с пользователя дополнительную комиссию, которая не входит в эту сумму.
@@ -246,18 +259,7 @@ type PaymentConfig struct {
 	// Данные для формирования чека в онлайн-кассе (для соблюдения 54-ФЗ ).
 	// Необходимо передавать, если вы отправляете данные для формирования чеков по одному из сценариев:
 	// Платеж и чек одновременно или Сначала чек, потом платеж.
-	Receipt *struct {
-		Customer *struct {
-			FullName string `json:"full_name,omitempty"`
-			INN      string `json:"inn,omitempty"`
-			Email    string `json:"email,omitempty"`
-			Phone    string `json:"phone,omitempty"`
-		} `json:"customer,omitempty"`
-		Items         []Item `json:"items"`
-		TaxSystemCode int    `json:"tax_system_code,omitempty"`
-		Phone         string `json:"phone,omitempty"`
-		Email         string `json:"email,omitempty"`
-	} `json:"receipt,omitempty"`
+	Receipt *Receipt `json:"receipt,omitempty"`
 	// Одноразовый токен для проведения оплаты, сформированный с помощью веб или мобильного SDK.
 	PaymentToken string `json:"payment_token,omitempty"`
 	// Идентификатор сохраненного способа оплаты.
