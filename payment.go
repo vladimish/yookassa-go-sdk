@@ -178,7 +178,7 @@ type Payment struct {
 	} `json:"authorization_details"`
 }
 
-type Item []struct {
+type Item struct {
 	Description              string `json:"description,omitempty"`
 	Quantity                 string `json:"quantity,omitempty"`
 	Amount                   Amount `json:"amount,omitempty"`
