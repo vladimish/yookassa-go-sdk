@@ -1,3 +1,3 @@
-module github.com/telf01/yookassa-go-sdk
+module github.com/vladimish/yookassa-go-sdk
 
 go 1.17

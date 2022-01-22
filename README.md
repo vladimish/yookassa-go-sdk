@@ -9,7 +9,7 @@ SDK находится в стадии разработки. Если у вас 
 package main
 
 import (
-"github.com/telf01/yookassa-go-sdk"
+"github.com/vladimish/yookassa-go-sdk"
 "log"
 "time"
 )
